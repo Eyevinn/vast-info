@@ -13,7 +13,7 @@ const options = yargs
   .option("u", { alias: "url", describe: "The url to fetch VAST or VMAP from.", type: "string", demandOption: true})
   .argv;
 
-const url = options.url; // "https://adinsertion-proxy-prod.herokuapp.com/ads?dd=450"
+const url = options.url;
 // temp
 const vast = fs.readFileSync(path.join(__dirname, "tests/mock/vast.xml"), "utf-8");
 const vmap = fs.readFileSync(path.join(__dirname, "tests/mock/vmap.xml"), "utf-8");
