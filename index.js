@@ -23,8 +23,6 @@ const url = options.url;
     ? constants.Format.VMAP
     : constants.Format.VAST;
 
-  const adbreakInfo = [];
-
   switch (format) {
     case constants.Format.VAST:
       adBreakParser.parse(xml);
