@@ -4,7 +4,6 @@ const parseInLine = (ad) => {
   let highestResolution = !multiMediaFiles ? `${Creative.Linear.MediaFiles.MediaFile["@_width"]}x${Creative.Linear.MediaFiles.MediaFile["@_height"]}` : "";
   let lowestResolution = !multiMediaFiles ? `${Creative.Linear.MediaFiles.MediaFile["@_width"]}x${Creative.Linear.MediaFiles.MediaFile["@_height"]}` : "";
   if (multiMediaFiles) {
-    // console.log(Creative.Linear.MediaFiles.MediaFile);
     let highest = 0;
     let lowest = null;
     Creative.Linear.MediaFiles.MediaFile.forEach((m) => {
@@ -45,9 +44,6 @@ const parseWrapper = (ad) => {
 const durationAsSeconds = (adDuration) => {
   let duration = 0;
   const [hours, minutes, seconds] = adDuration.split(":");
-  // const hours = splittedDuration[0];
-  // const minutes = splittedDuration[1];
-  // const seconds = splittedDuration[2];
 
   if (Number(hours)) {
     duration += Number(hours) * 3600;
