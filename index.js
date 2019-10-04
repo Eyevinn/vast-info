@@ -1,9 +1,5 @@
 #!/usr/bin/env node
 const yargs = require("yargs");
-
-const fs = require("fs");
-const path = require("path");
-
 const http = require("./utils/http");
 const constants = require("./utils/constants");
 const adBreakParser = require("./parsers/adBreakParser");
