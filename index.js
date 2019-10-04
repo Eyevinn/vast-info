@@ -6,8 +6,8 @@ const path = require("path");
 
 const http = require("./utils/http");
 const constants = require("./utils/constants");
-const adBreakParser = require("./utils/adBreakParser");
-const vmapParser = require("./utils/vmapParser");
+const adBreakParser = require("./parsers/adBreakParser");
+const vmapParser = require("./parsers/vmapParser");
 
 const options = yargs
   .usage("Usage: -u <url>")
