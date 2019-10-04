@@ -22,6 +22,10 @@ const parse = (vast, index) => {
     }
     if (ad.InLine) {
       obj = adObjectParser.parseInLine(ad);
+      /**
+       * This is just an assumption regarding the naming of the adsystem and titles
+       * Needs to be defined for each source
+       */
       if (obj.AdSystem.includes("proxy")) {
         switch (true) {
           case obj.AdTitle.includes("bumper"):
@@ -41,6 +45,9 @@ const parse = (vast, index) => {
   });
 
   const breakTitle = !index && index === 0 ? "Pre-roll Block" : index ? `Break #${index}` : "Break Info";
+  /**
+   * We're creating an objext with themes property keys as they will show as titles in the printed table
+   */
   const vastInfo = {
     [breakTitle]: {
       "Number of films": ads.length,

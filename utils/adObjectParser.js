@@ -1,23 +1,24 @@
 const parseInLine = (ad) => {
   const Creative = Array.isArray(ad.InLine.Creatives.Creative) ? ad.InLine.Creatives.Creative[0] : ad.InLine.Creatives.Creative;
   const multiMediaFiles = Creative.Linear.MediaFiles && Array.isArray(Creative.Linear.MediaFiles.MediaFile);
+  /**
+   * If just a single media file, it's an object instead of an array
+   * We want to create a human readable string like 1920x1080 instead of just one single part of the ratio
+   */
   let highestResolution = !multiMediaFiles ? `${Creative.Linear.MediaFiles.MediaFile["@_width"]}x${Creative.Linear.MediaFiles.MediaFile["@_height"]}` : "";
   let lowestResolution = !multiMediaFiles ? `${Creative.Linear.MediaFiles.MediaFile["@_width"]}x${Creative.Linear.MediaFiles.MediaFile["@_height"]}` : "";
+  /**
+   * If multi files, we'll sort to find the one with lowest or highest ratio
+   */
   if (multiMediaFiles) {
-    let highest = 0;
-    let lowest = null;
-    Creative.Linear.MediaFiles.MediaFile.forEach((m) => {
-      let h = Number(m["@_height"]);
-      if (h > highest) {
-        highestResolution = `${m["@_width"]}x${m["@_height"]}`;
-        highest = h;
-      }
-      if (!lowest || h < lowest) {
-        lowestResolution = `${m["@_width"]}x${m["@_height"]}`;
-        lowest = h;
-      }
-    });
+    const fileList = Creative.Linear.MediaFiles.MediaFile;
+    const sortedFiles = fileList.sort((a, b) => a["@_height"] < b["@_height"] ? 1 : -1);
+    highestResolution = `${sortedFiles[0]["@_width"]}x${sortedFiles[0]["@_height"]}`;
+    lowestResolution = `${sortedFiles[sortedFiles.length - 1]["@_width"]}x${sortedFiles[sortedFiles.length - 1]["@_height"]}`;
   }
+  /**
+   * We're creating an objext with themes property keys as they will show as titles in the printed table
+   */
   return {
     type: "InLine",
     AdSystem: ad.InLine.AdSystem,
