@@ -19,16 +19,18 @@ const url = options.url;
 (async function () {
   const xml = await http.get(url);
   // const xml = vast;
-  const format = xml.includes(constants.Format.VMAP)
-    ? constants.Format.VMAP
-    : constants.Format.VAST;
+  if (xml) {
+    const format = xml.includes(constants.Format.VMAP)
+      ? constants.Format.VMAP
+      : constants.Format.VAST;
 
-  switch (format) {
-    case constants.Format.VAST:
-      adBreakParser.parse(xml);
-      break;
-    case constants.Format.VMAP:
-      vmapParser.parse(xml);
-      break;
+    switch (format) {
+      case constants.Format.VAST:
+        adBreakParser.parse(xml);
+        break;
+      case constants.Format.VMAP:
+        vmapParser.parse(xml);
+        break;
+    }
   }
 })();
