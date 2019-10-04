@@ -15,9 +15,6 @@ const options = yargs
   .argv;
 
 const url = options.url;
-// temp
-const vast = fs.readFileSync(path.join(__dirname, "tests/mock/vast.xml"), "utf-8");
-const vmap = fs.readFileSync(path.join(__dirname, "tests/mock/vmap.xml"), "utf-8");
 
 (async function () {
   const xml = await http.get(url);
