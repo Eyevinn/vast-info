@@ -1,3 +1,5 @@
+const constants = require("../utils/constants");
+
 const parseInLine = (ad) => {
   const Creative = Array.isArray(ad.InLine.Creatives.Creative) ? ad.InLine.Creatives.Creative[0] : ad.InLine.Creatives.Creative;
   const multiMediaFiles = Creative.Linear.MediaFiles && Array.isArray(Creative.Linear.MediaFiles.MediaFile);
@@ -20,24 +22,24 @@ const parseInLine = (ad) => {
    * We're creating an objext with themes property keys as they will show as titles in the printed table
    */
   return {
-    type: "InLine",
-    AdSystem: ad.InLine.AdSystem,
-    AdTitle: ad.InLine.AdTitle,
-    "Duration (seconds)": Creative.Linear.Duration ? durationAsSeconds(Creative.Linear.Duration) : false,
-    MediaFiles: multiMediaFiles ? Creative.Linear.MediaFiles.MediaFile.length : 1,
-    "Highest resolution": highestResolution,
-    "Lowest resolution": lowestResolution,
-    ErrorTracker: ad.InLine.Error ? "Yes" : "No",
-    ImpressionTrackers: Array.isArray(ad.InLine.Impression) ? ad.InLine.Impression.length
+    [constants.AdInfoKeys.TYPE]: "InLine",
+    [constants.AdInfoKeys.SYSTEM]: ad.InLine.AdSystem,
+    [constants.AdInfoKeys.TITLE]: ad.InLine.AdTitle,
+    [constants.AdInfoKeys.DURATION]: Creative.Linear.Duration ? durationAsSeconds(Creative.Linear.Duration) : false,
+    [constants.AdInfoKeys.MEDIAFILES]: multiMediaFiles ? Creative.Linear.MediaFiles.MediaFile.length : 1,
+    [constants.AdInfoKeys.HIGHEST_RESOLUTION]: highestResolution,
+    [constants.AdInfoKeys.LOWEST_RESOLUTION]: lowestResolution,
+    [constants.AdInfoKeys.ERROR_TRACKERS]: ad.InLine.Error ? "Yes" : "No",
+    [constants.AdInfoKeys.IMPRESSION_TRACKERS]: Array.isArray(ad.InLine.Impression) ? ad.InLine.Impression.length
       : ad.InLine.Impression ? 1 : false
   }
 };
 
 const parseWrapper = (ad) => {
   return {
-    type: "Wrapper",
-    ErrorTracker: ad.Wrapper.Error ? "Yes" : "No",
-    ImpressionTrackers: Array.isArray(ad.Wrapper.Impression) ? ad.Wrapper.Impression.length
+    [constants.AdInfoKeys.TYPE]: "Wrapper",
+    [constants.AdInfoKeys.ERROR_TRACKERS]: ad.Wrapper.Error ? "Yes" : "No",
+    [constants.AdInfoKeys.IMPRESSION_TRACKERS]: Array.isArray(ad.Wrapper.Impression) ? ad.Wrapper.Impression.length
       : ad.Wrapper.Impression ? 1 : false
   };
 };

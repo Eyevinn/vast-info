@@ -1,5 +1,6 @@
 const parser = require("fast-xml-parser");
 
+const constants = require("../utils/constants");
 const adObjectParser = require("./adObjectParser");
 
 const parse = (vast, index) => {
@@ -26,9 +27,9 @@ const parse = (vast, index) => {
        * This is just an assumption regarding the naming of the adsystem and titles
        * Needs to be defined for each source
        */
-      if (obj.AdSystem.includes("proxy")) {
+      if (obj[constants.AdInfoKeys.SYSTEM].includes("proxy")) {
         switch (true) {
-          case obj.AdTitle.includes("bumper"):
+          case obj[constants.AdInfoKeys.TITLE].includes("bumper"):
             bumpers += 1;
             break;
           default:
@@ -39,7 +40,7 @@ const parse = (vast, index) => {
         inlineAds += 1;
       }
 
-      breakDuration += obj["Duration (seconds)"] ? obj["Duration (seconds)"] : 0;
+      breakDuration += obj[constants.AdInfoKeys.DURATION] ? obj[constants.AdInfoKeys.DURATION] : 0;
     }
     prettyPrintObject.push(obj);
   });
@@ -50,12 +51,12 @@ const parse = (vast, index) => {
    */
   const vastInfo = {
     [breakTitle]: {
-      "Number of films": ads.length,
-      "Total duration": `${breakDuration} seconds + ${wrapperAds} wrappers`,
-      "Inline Ads": inlineAds,
-      "Wrapper Ads": wrapperAds,
-      "Detected Bumpers / Vignettes": bumpers,
-      "Detected Trailers": trailers
+      [constants.BreakInfoKeys.NUMBER_OF_FILMS]: ads.length,
+      [constants.BreakInfoKeys.TOTAL_DURATION]: `${breakDuration} seconds + ${wrapperAds} wrappers`,
+      [constants.BreakInfoKeys.INLINE_ADS]: inlineAds,
+      [constants.BreakInfoKeys.WRAPPER_ADS]: wrapperAds,
+      [constants.BreakInfoKeys.BUMPERS]: bumpers,
+      [constants.BreakInfoKeys.TRAILERS]: trailers
     }
   };
 
