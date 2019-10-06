@@ -3,7 +3,7 @@ const parser = require("fast-xml-parser");
 const constants = require("../utils/constants");
 const adObjectParser = require("./adObjectParser");
 
-const parse = (vast, index) => {
+const parse = (vast, index, noPrint) => {
   const vastJson = vast instanceof Object ? vast : parser.parse(vast, { ignoreAttributes: false });
   const ads = vastJson.VAST.Ad;
 
@@ -59,9 +59,15 @@ const parse = (vast, index) => {
       [constants.BreakInfoKeys.TRAILERS]: trailers
     }
   };
-
-  console.table(vastInfo);
-  console.table(prettyPrintObject);
+  if (noPrint) {
+    return {
+      vastInfo,
+      prettyPrintObject
+    }
+  } else {
+    console.table(vastInfo);
+    console.table(prettyPrintObject);
+  }
 }
 
 module.exports = {

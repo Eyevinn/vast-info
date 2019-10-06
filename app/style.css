@@ -1,0 +1,12 @@
+body, html {
+
+}
+
+table {
+  font-size: 14px !important;
+}
+
+table tr th,
+table tr td {
+  width: 10% !important;
+}

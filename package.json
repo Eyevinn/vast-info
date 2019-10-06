@@ -2,9 +2,10 @@
   "name": "vast-info",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron ."
   },
   "bin": {
     "vast-info": "index.js"
@@ -22,6 +23,7 @@
     "@babel/cli": "^7.6.2",
     "@babel/core": "^7.6.2",
     "babel-eslint": "^10.0.3",
+    "electron": "^6.0.11",
     "eslint": "^6.5.1",
     "eslint-config-prettier": "^6.3.0",
     "eslint-plugin-prettier": "^3.1.1",
