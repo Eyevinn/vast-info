@@ -61,13 +61,12 @@ app.on('activate', () => {
 
 ipcMain.on("fetch", async (event, args) => {
   const url = args;
-  //
-  const fs = require("fs");
-  const path = require("path");
-  const vast = fs.readFileSync(path.join(__dirname, "tests/mock/vast.xml"), "utf-8");
-  const vmap = fs.readFileSync(path.join(__dirname, "tests/mock/vmap.xml"), "utf-8");
-  const xml = vmap;
-  // const xml = await http.get(url);
+  // const fs = require("fs");
+  // const path = require("path");
+  // const vast = fs.readFileSync(path.join(__dirname, "tests/mock/vast.xml"), "utf-8");
+  // const vmap = fs.readFileSync(path.join(__dirname, "tests/mock/vmap.xml"), "utf-8");
+  // const xml = vmap;
+  const xml = await http.get(url);
   if (xml) {
     const format = xml.includes(constants.Format.VMAP)
       ? constants.Format.VMAP
