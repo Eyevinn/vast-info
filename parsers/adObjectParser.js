@@ -3,17 +3,17 @@ const helpers = require("../utils/helpers");
 
 const parseInLine = (ad) => {
   const Creative = Array.isArray(ad.InLine.Creatives.Creative) ? ad.InLine.Creatives.Creative[0] : ad.InLine.Creatives.Creative;
-  const multiMediaFiles = Creative.Linear.MediaFiles && Array.isArray(Creative.Linear.MediaFiles.MediaFile);
+  const multipleMediaFiles = helpers.get(Creative, "Linear.MediaFiles") && Array.isArray(Creative.Linear.MediaFiles.MediaFile);
   /**
    * If just a single media file, it's an object instead of an array
    * We want to create a human readable string like 1920x1080 instead of just one single part of the ratio
    */
-  let highestResolution = !multiMediaFiles ? `${Creative.Linear.MediaFiles.MediaFile["@_width"]}x${Creative.Linear.MediaFiles.MediaFile["@_height"]}` : "";
-  let lowestResolution = !multiMediaFiles ? `${Creative.Linear.MediaFiles.MediaFile["@_width"]}x${Creative.Linear.MediaFiles.MediaFile["@_height"]}` : "";
+  let highestResolution = !multipleMediaFiles ? `${Creative.Linear.MediaFiles.MediaFile["@_width"]}x${Creative.Linear.MediaFiles.MediaFile["@_height"]}` : "";
+  let lowestResolution = !multipleMediaFiles ? `${Creative.Linear.MediaFiles.MediaFile["@_width"]}x${Creative.Linear.MediaFiles.MediaFile["@_height"]}` : "";
   /**
    * If multi files, we'll sort to find the one with lowest or highest ratio
    */
-  if (multiMediaFiles) {
+  if (multipleMediaFiles) {
     const fileList = Creative.Linear.MediaFiles.MediaFile;
     const sortedFiles = fileList.sort((a, b) => a["@_height"] < b["@_height"] ? 1 : -1);
     highestResolution = `${sortedFiles[0]["@_width"]}x${sortedFiles[0]["@_height"]}`;
@@ -38,6 +38,7 @@ const parseInLine = (ad) => {
     [constants.AdInfoKeys.SYSTEM]: ad.InLine.AdSystem,
     [constants.AdInfoKeys.TITLE]: ad.InLine.AdTitle,
     [constants.AdInfoKeys.DURATION]: Creative.Linear.Duration ? helpers.durationAsSeconds(Creative.Linear.Duration) : false,
+    [constants.AdInfoKeys.MEDIAFILES]: multipleMediaFiles ? Creative.Linear.MediaFiles.MediaFile.length : 1,
     [constants.AdInfoKeys.HIGHEST_RESOLUTION]: highestResolution,
     [constants.AdInfoKeys.LOWEST_RESOLUTION]: lowestResolution,
     [constants.AdInfoKeys.ERROR_TRACKERS]: ad.InLine.Error ? "Yes" : "No",
