@@ -1,4 +1,5 @@
 const constants = require("../utils/constants");
+const helpers = require("../utils/helpers");
 
 const parseInLine = (ad) => {
   const Creative = Array.isArray(ad.InLine.Creatives.Creative) ? ad.InLine.Creatives.Creative[0] : ad.InLine.Creatives.Creative;
@@ -18,6 +19,17 @@ const parseInLine = (ad) => {
     highestResolution = `${sortedFiles[0]["@_width"]}x${sortedFiles[0]["@_height"]}`;
     lowestResolution = `${sortedFiles[sortedFiles.length - 1]["@_width"]}x${sortedFiles[sortedFiles.length - 1]["@_height"]}`;
   }
+
+  let impressionsElements = helpers.get(ad, "InLine.Impression");
+  let impressionTrackers = [];
+  if (impressionsElements) {
+    const urlStrings = Array.isArray(impressionsElements) ? impressionsElements : new Array(impressionsElements);
+    for (let i = 0; i < urlStrings.length; i++) {
+      let urlObject = new URL(urlStrings[i]);
+      let host = urlObject.hostname;
+      impressionTrackers.push(host);
+    }
+  }
   /**
    * We're creating an objext with themes property keys as they will show as titles in the printed table
    */
@@ -30,8 +42,7 @@ const parseInLine = (ad) => {
     [constants.AdInfoKeys.HIGHEST_RESOLUTION]: highestResolution,
     [constants.AdInfoKeys.LOWEST_RESOLUTION]: lowestResolution,
     [constants.AdInfoKeys.ERROR_TRACKERS]: ad.InLine.Error ? "Yes" : "No",
-    [constants.AdInfoKeys.IMPRESSION_TRACKERS]: Array.isArray(ad.InLine.Impression) ? ad.InLine.Impression.length
-      : ad.InLine.Impression ? 1 : false
+    [constants.AdInfoKeys.IMPRESSION_TRACKERS]: impressionTrackers.join(", ")
   }
 };
 
