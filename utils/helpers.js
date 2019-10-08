@@ -1,11 +1,15 @@
 const get = (obj, path, defaultValue) => {
-  const result = String.prototype.split.call(path, /[,[\].]+?/)
+  const result = String.prototype.split
+    .call(path, /[,[\].]+?/)
     .filter(Boolean)
-    .reduce((res, key) => (res !== null && res !== undefined) ? res[key] : res, obj);
-  return (result === undefined || result === obj) ? defaultValue : result;
-}
+    .reduce(
+      (res, key) => (res !== null && res !== undefined ? res[key] : res),
+      obj
+    );
+  return result === undefined || result === obj ? defaultValue : result;
+};
 
-const durationAsSeconds = (adDuration) => {
+const durationAsSeconds = adDuration => {
   let duration = 0;
   const [hours, minutes, seconds] = adDuration.split(":");
 
@@ -25,4 +29,4 @@ const durationAsSeconds = (adDuration) => {
 module.exports = {
   get,
   durationAsSeconds
-}
+};
