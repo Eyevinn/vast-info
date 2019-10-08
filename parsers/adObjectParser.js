@@ -37,8 +37,7 @@ const parseInLine = (ad) => {
     [constants.AdInfoKeys.TYPE]: "InLine",
     [constants.AdInfoKeys.SYSTEM]: ad.InLine.AdSystem,
     [constants.AdInfoKeys.TITLE]: ad.InLine.AdTitle,
-    [constants.AdInfoKeys.DURATION]: Creative.Linear.Duration ? durationAsSeconds(Creative.Linear.Duration) : false,
-    [constants.AdInfoKeys.MEDIAFILES]: multiMediaFiles ? Creative.Linear.MediaFiles.MediaFile.length : 1,
+    [constants.AdInfoKeys.DURATION]: Creative.Linear.Duration ? helpers.durationAsSeconds(Creative.Linear.Duration) : false,
     [constants.AdInfoKeys.HIGHEST_RESOLUTION]: highestResolution,
     [constants.AdInfoKeys.LOWEST_RESOLUTION]: lowestResolution,
     [constants.AdInfoKeys.ERROR_TRACKERS]: ad.InLine.Error ? "Yes" : "No",
@@ -55,25 +54,7 @@ const parseWrapper = (ad) => {
   };
 };
 
-const durationAsSeconds = (adDuration) => {
-  let duration = 0;
-  const [hours, minutes, seconds] = adDuration.split(":");
-
-  if (Number(hours)) {
-    duration += Number(hours) * 3600;
-  }
-  if (Number(minutes)) {
-    duration += Number(minutes) * 60;
-  }
-  if (Number(seconds)) {
-    duration += Number(seconds);
-  }
-
-  return duration;
-};
-
 module.exports = {
   parseInLine,
-  parseWrapper,
-  durationAsSeconds
+  parseWrapper
 }
