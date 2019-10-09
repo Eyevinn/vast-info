@@ -25,6 +25,7 @@ describe("helpers", () => {
     it("should return the number representation of given time string", () => {
       expect(helpers.durationAsSeconds("00:00:20")).toEqual(20);
       expect(helpers.durationAsSeconds("00:01:00")).toEqual(60);
+      expect(helpers.durationAsSeconds("01:21:37")).toEqual(4897);
     });
   });
 });
