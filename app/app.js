@@ -1,13 +1,12 @@
 let resultHtml = "";
 document.addEventListener("DOMContentLoaded", () => {
-  const ipcRenderer = require('electron').ipcRenderer;
+  const ipcRenderer = require("electron").ipcRenderer;
   const fetchBtn = document.querySelector("#button-addon2");
   fetchBtn.addEventListener("click", () => {
     const url = document.querySelector("input#url").value;
     ipcRenderer.send("fetch", url);
   });
   ipcRenderer.on("data", (event, data) => {
-
     if (Array.isArray(data)) {
       printVMAP(data);
     } else {

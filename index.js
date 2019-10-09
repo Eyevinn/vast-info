@@ -5,14 +5,16 @@ const constants = require("./utils/constants");
 const adBreakParser = require("./parsers/adBreakParser");
 const vmapParser = require("./parsers/vmapParser");
 
-const options = yargs
-  .usage("Usage: -u <url>")
-  .option("u", { alias: "url", describe: "The url to fetch VAST or VMAP from.", type: "string", demandOption: true})
-  .argv;
+const options = yargs.usage("Usage: -u <url>").option("u", {
+  alias: "url",
+  describe: "The url to fetch VAST or VMAP from.",
+  type: "string",
+  demandOption: true
+}).argv;
 
 const url = options.url;
 
-(async function () {
+(async function() {
   const xml = await http.get(url);
   // const xml = vast;
   if (xml) {

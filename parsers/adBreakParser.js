@@ -4,7 +4,10 @@ const constants = require("../utils/constants");
 const adObjectParser = require("./adObjectParser");
 
 const parse = (vast, index, noPrint) => {
-  const vastJson = vast instanceof Object ? vast : parser.parse(vast, { ignoreAttributes: false });
+  const vastJson =
+    vast instanceof Object
+      ? vast
+      : parser.parse(vast, { ignoreAttributes: false });
   const ads = vastJson.VAST.Ad;
 
   let bumpers = 0;
@@ -40,19 +43,27 @@ const parse = (vast, index, noPrint) => {
         inlineAds += 1;
       }
 
-      breakDuration += obj[constants.AdInfoKeys.DURATION] ? obj[constants.AdInfoKeys.DURATION] : 0;
+      breakDuration += obj[constants.AdInfoKeys.DURATION]
+        ? obj[constants.AdInfoKeys.DURATION]
+        : 0;
     }
     prettyPrintObject.push(obj);
   });
 
-  const breakTitle = !index && index === 0 ? "Pre-roll Block" : index ? `Break #${index}` : "Break Info";
+  const breakTitle =
+    !index && index === 0
+      ? "Pre-roll Block"
+      : index
+      ? `Break #${index}`
+      : "Break Info";
   /**
    * We're creating an objext with themes property keys as they will show as titles in the printed table
    */
   const vastInfo = {
     [breakTitle]: {
       [constants.BreakInfoKeys.NUMBER_OF_FILMS]: ads.length,
-      [constants.BreakInfoKeys.TOTAL_DURATION]: `${breakDuration} seconds + ${wrapperAds} wrappers`,
+      [constants.BreakInfoKeys
+        .TOTAL_DURATION]: `${breakDuration} seconds + ${wrapperAds} wrappers`,
       [constants.BreakInfoKeys.INLINE_ADS]: inlineAds,
       [constants.BreakInfoKeys.WRAPPER_ADS]: wrapperAds,
       [constants.BreakInfoKeys.BUMPERS]: bumpers,
@@ -63,13 +74,13 @@ const parse = (vast, index, noPrint) => {
     return {
       vastInfo,
       prettyPrintObject
-    }
+    };
   } else {
     console.table(vastInfo);
     console.table(prettyPrintObject);
   }
-}
+};
 
 module.exports = {
   parse
-}
+};
