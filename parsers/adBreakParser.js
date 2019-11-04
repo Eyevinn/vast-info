@@ -58,6 +58,7 @@ const parse = (vast, index, noPrint) => {
       : "Break Info";
   /**
    * We're creating an objext with themes property keys as they will show as titles in the printed table
+   * Only show the concern with Wrappers, if someone exists
    */
   const totalDuration =
     wrapperAds > 0
@@ -80,7 +81,17 @@ const parse = (vast, index, noPrint) => {
     };
   } else {
     console.table(vastInfo);
-    console.table(prettyPrintObject);
+    /**
+     * We do not want the url's to exist in the printed data
+     * Therefore we're deleting them, since this is a very basic printer as of today
+     */
+    console.table(
+      prettyPrintObject.map(obj => {
+        delete obj.vl;
+        delete obj.vh;
+        return obj;
+      })
+    );
   }
 };
 

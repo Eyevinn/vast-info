@@ -12,11 +12,14 @@ const parseInLine = ad => {
    * If just a single media file, it's an object instead of an array
    * We want to create a human readable string like 1920x1080 instead of just one single part of the ratio
    */
+  let videoHigh = Creative.Linear.MediaFiles.MediaFile["#text"];
+  let videoLow = Creative.Linear.MediaFiles.MediaFile["#text"];
   let highestResolution = !multipleMediaFiles
     ? `${Creative.Linear.MediaFiles.MediaFile["@_width"]}x${
         Creative.Linear.MediaFiles.MediaFile["@_height"]
       }`
     : "";
+
   let lowestResolution = !multipleMediaFiles
     ? `${Creative.Linear.MediaFiles.MediaFile["@_width"]}x${
         Creative.Linear.MediaFiles.MediaFile["@_height"]
@@ -33,9 +36,11 @@ const parseInLine = ad => {
     highestResolution = `${sortedFiles[0]["@_width"]}x${
       sortedFiles[0]["@_height"]
     }`;
+    videoHigh = sortedFiles[0]["#text"];
     lowestResolution = `${sortedFiles[sortedFiles.length - 1]["@_width"]}x${
       sortedFiles[sortedFiles.length - 1]["@_height"]
     }`;
+    videoLow = sortedFiles[sortedFiles.length - 1]["#text"];
   }
 
   let impressionsElements = helpers.get(ad, "InLine.Impression");
@@ -66,7 +71,9 @@ const parseInLine = ad => {
     [constants.AdInfoKeys.HIGHEST_RESOLUTION]: highestResolution,
     [constants.AdInfoKeys.LOWEST_RESOLUTION]: lowestResolution,
     [constants.AdInfoKeys.ERROR_TRACKERS]: ad.InLine.Error ? "Yes" : "No",
-    [constants.AdInfoKeys.IMPRESSION_TRACKERS]: impressionTrackers.join(", ")
+    [constants.AdInfoKeys.IMPRESSION_TRACKERS]: impressionTrackers.join(", "),
+    vh: videoHigh,
+    vl: videoLow
   };
 };
 

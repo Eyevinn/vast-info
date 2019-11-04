@@ -14,3 +14,32 @@ table tr th,
 table tr td {
   width: 10% !important;
 }
+
+table tr td.playable {
+  text-decoration: underline;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+section#videoHolder {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+section#videoHolder.active {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0,0,0,0.5);
+}
+section#videoHolder video {
+  max-width: 90%;
+  min-width: 60%;
+  max-height: 90%;
+  min-height: 60%;
+  background-color: black;
+  z-index: 999;
+}

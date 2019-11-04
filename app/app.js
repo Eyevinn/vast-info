@@ -62,7 +62,12 @@ function printVast(data) {
         <table class="table table-striped">
           <thead>
             <tr>`;
+    /**
+     * Iterate through the object keys to write out the headers
+     */
     adHeaders.forEach(h => {
+      // These parameters exists purely for player usage
+      if (h === "vh" || h === "vl") return;
       resultHtml += `<th scope="col">${h.replace(regex, "")}</th>`;
     });
     resultHtml += `</tr>
@@ -70,8 +75,24 @@ function printVast(data) {
           <tbody>`;
     ads.forEach(a => {
       resultHtml += `<tr>`;
+      /**
+       * Iterate through the object keys to write out the value for each object
+       */
       adHeaders.forEach(h => {
-        resultHtml += `<td scope="col">${a[h]}</th>`;
+        // These parameters exists purely for player usage
+        if (h === "vh" || h === "vl") return;
+        // When we come to highest and lowest by name, let's get the urls
+        const url = h.toLowerCase().includes("highest")
+          ? a.vh
+          : h.toLowerCase().includes("lowest")
+          ? a.vl
+          : null;
+        // make the resolution values clickable
+        if (url) {
+          resultHtml += `<td scope="col" class="playable" data-src="${url}">${a[h]}</th>`;
+        } else {
+          resultHtml += `<td scope="col">${a[h]}</th>`;
+        }
       });
       resultHtml += `</tr>`;
     });
@@ -80,4 +101,27 @@ function printVast(data) {
         `;
   }
   resultArea.innerHTML = resultHtml;
+
+  /**
+   * For all the clickable resolutions
+   * Create an event listener to initiate the player
+   */
+  const urlElements = document.getElementsByClassName("playable");
+  Array.from(urlElements).forEach(element => {
+    element.addEventListener("click", ev => {
+      const url = ev.currentTarget.dataset.src;
+      playVideo(url);
+    });
+  });
+}
+
+function playVideo(src) {
+  const videoSection = document.querySelector("section#videoHolder");
+  const videoElement = document.querySelector("video");
+  videoElement.src = src;
+  videoSection.classList.add("active");
+  videoElement.addEventListener("ended", () => {
+    videoElement.src = "";
+    videoSection.classList.remove("active");
+  });
 }
