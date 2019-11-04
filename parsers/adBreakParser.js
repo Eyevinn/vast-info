@@ -59,11 +59,14 @@ const parse = (vast, index, noPrint) => {
   /**
    * We're creating an objext with themes property keys as they will show as titles in the printed table
    */
+  const totalDuration =
+    wrapperAds > 0
+      ? `${breakDuration} seconds + ${wrapperAds} wrappers`
+      : `${breakDuration} seconds`;
   const vastInfo = {
     [breakTitle]: {
       [constants.BreakInfoKeys.NUMBER_OF_FILMS]: ads.length,
-      [constants.BreakInfoKeys
-        .TOTAL_DURATION]: `${breakDuration} seconds + ${wrapperAds} wrappers`,
+      [constants.BreakInfoKeys.TOTAL_DURATION]: totalDuration,
       [constants.BreakInfoKeys.INLINE_ADS]: inlineAds,
       [constants.BreakInfoKeys.WRAPPER_ADS]: wrapperAds,
       [constants.BreakInfoKeys.BUMPERS]: bumpers,
