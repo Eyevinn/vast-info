@@ -1,11 +1,21 @@
 let resultHtml = "";
+let resultArea;
+
 document.addEventListener("DOMContentLoaded", () => {
   const ipcRenderer = require("electron").ipcRenderer;
+
+  resultArea = document.querySelector("section#result");
   const fetchBtn = document.querySelector("#button-addon2");
+
   fetchBtn.addEventListener("click", () => {
     const url = document.querySelector("input#url").value;
+
+    resultArea.innerHTML = "<span>Loading...</span>";
+    resultArea.setAttribute("style", "text-align: center;");
+
     ipcRenderer.send("fetch", url);
   });
+
   ipcRenderer.on("data", (event, data) => {
     if (Array.isArray(data)) {
       printVMAP(data);
@@ -27,7 +37,6 @@ function printVMAP(list) {
 }
 
 function printVast(data) {
-  const resultArea = document.querySelector("section#result");
   let numberOfVASTs = Object.keys(data.vastInfo).length;
   for (let i = 0; i < numberOfVASTs; i++) {
     const key = Object.keys(data.vastInfo)[i];
@@ -100,6 +109,7 @@ function printVast(data) {
           </table>
         `;
   }
+  resultArea.removeAttribute("style");
   resultArea.innerHTML = resultHtml;
 
   /**
